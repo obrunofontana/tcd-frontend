@@ -1,0 +1,45 @@
+/*
+
+
+font-family: 'Junge', serif;
+font-family: 'Hepta Slab', serif; top 2
+font-family: 'Inconsolata', monospace;
+font-family: 'Rajdhani', sans-serif;
+font-family: 'Neucha', cursive;
+font-family: 'Montserrat Alternates', sans-serif; Top 1 
+font-family: 'Coming Soon', cursive;
+font-family: 'Cabin Sketch', cursive;
+
+*/
+
+.page {
+    background-color: #282828;
+    color: wheat;
+}
+
+h1, h2, h3 {
+    margin-top: 2em;
+    font-family: 'Montserrat Alternates', sans-serif;
+    text-align: center;
+}
+
+p {
+    font-family: 'Montserrat Alternates', sans-serif;
+    text-align: center;
+    font-size: 12px;
+    line-height: 150%;
+}
+
+.w-btn1 {
+    margin-top: 5em;
+    background-color: #F34A38;
+    color: wheat;
+    font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.ember-basic-dropdown-trigger {
+    height: 2.5em !important;
+    background-color: #F34A38 !important;
+    color: wheat !important;
+    font-family: 'Montserrat Alternates', sans-serif !important;
+}

@@ -1,0 +1,89 @@
+.select-car {
+    margin-top: 30%;
+}
+
+.arrow-left {
+    width: 60px;
+    height: 60px;
+    background-color: green;
+    color: #FFF;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.arrow-left i {
+    margin-left: 3px;
+}
+
+.input-km {
+    background-color: #282828;
+    color: wheat;
+    font-family: 'Montserrat Alternates', sans-serif;
+    margin: 0;
+}
+
+:root {
+    /*
+    --f7-input-outline-focused-border-color: var(--f7-theme-color);
+    --f7-input-outline-invalid-border-color: var(--f7-input-error-text-color);
+    */
+    --f7-input-clear-button-size: 14px;
+   /* --f7-input-text-color: #fff;*/
+    --f7-input-info-text-color: #fff;
+    --f7-input-placeholder-color: #F34A38;
+    --f7-label-text-color: #F34A38;
+    /* quando tem texto preenchido */
+    --f7-input-outline-border-color: #F34A38;
+    --f7-input-outline-focused-border-color: wheat;
+    /* quando está selecionado o INPUT*/
+}
+
+.t-c {
+    text-align: center;
+}
+
+.profile-next-step-b {
+    margin-left: -50%;
+}
+
+.row-end {
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+}
+
+.divider {
+    border-top: 1px solid wheat;
+    display: block;
+    line-height: 1px;
+    margin: 15px 0;
+    position: relative;
+    text-align: center;
+}
+
+.divider .divider-title {
+    background: #282828;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 0 20px;
+    text-transform: uppercase;
+}
+
+.input-cep {
+    margin: 0;
+    background: #282828;
+}
+
+#form-endereco li {
+    margin: 0;
+}
+
+#input-power {
+    height: 2.5em !important;
+    background-color: #F34A38 !important;
+    color: wheat !important;
+    font-family: 'Montserrat Alternates', sans-serif !important;
+}

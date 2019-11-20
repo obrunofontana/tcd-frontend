@@ -1,0 +1,144 @@
+<img class="imageLogo" src="images/logoHome.svg" alt="">
+
+<div class="tablog">
+    <a id="tabs1" href="#" class="tab-link tab-link-active" data-tab=".tab1">Entrar</a>
+    <a id="tabs2" href="#" class="tab-link" data-tab=".tab2">Cadastre-se</a>
+</div>
+
+<div class="tabs tabs-top">
+    <div id="tab-content1" class="tab tab1 tab-active">
+        <form {{action 'authenticate' on="submit"}}>
+            <div class="list no-hairlines-md">
+                <ul>
+                    <li class="item-content item-input item-input-outline">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">E-mail</div>
+                            <div class="item-input-wrap">
+                                {{input type="email" value=email placeholder="Email" required=true}}
+                                <span class="input-clear-button"></span>
+                                <div class="item-input-info msgerrorE">{{msgerrorE}}</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input item-input-outline">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Senha</div>
+                            <div class="item-input-wrap">
+                                <!--input type="password" placeholder="Senha" value={{model.password}}-->
+                                {{input type="password" value=password placeholder="Senha" required=true}}
+                                <span class="input-clear-button"></span>
+                                <div class="item-input-info msgerrorP">{{msgerrorP}}</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--button {{action "loginWithEmail"}} class="button button-block  color-green entrar">
+                <span>
+                    Entrar
+                </span>
+            </button-->
+            <input id="btn-confirm-cad" class="button button-block color-green entrar" type="submit" value="Entrar">
+            <a {{action "forgotPassword"}}class="remeberPass"> Esqueceu a senha? Se f#!31.</a>
+        </form>
+
+        <hr>
+
+        <div id="btn-sociais" class="block">
+            <button {{action "login" "google"}} class="button button-block  color-red google">
+                <i class="fa fa-google isocial"></i>
+                <span>
+                    Entrar com Google
+                </span>
+            </button>
+            <button {{action "login" "facebook"}} class="button button-block  facebook">
+                <i class="fa fa-facebook isocialfb"></i>
+                <span>
+                    Entrar com Facebook
+                </span>
+            </button>
+            <button {{action "login" "github"}} class="button button-block  color-black github">
+                <i class="fa fa-github isocial"></i>
+                <span>
+                    Entrar com Github
+                </span>
+            </button>
+        </div>
+    </div>
+    <div id="tab-content2" class="tab tab2">
+        <form id="formCadastro" {{action 'register' on='submit'}}>
+            <div class="list no-hairlines-md">
+                <ul>
+                    <li class="item-content item-input item-input-outline item-input-with-info">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Nome</div>
+                            <div class="item-input-wrap">
+                                {{input type="text" value=name placeholder="Nome" required=true}}
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input item-input-outline item-input-with-info">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">E-mail</div>
+                            <div class="item-input-wrap">
+                                {{input type="email" value=emailLogin placeholder="Email" required=true}}
+                                <span class="input-clear-button"></span>
+                                <div class="item-input-info msgerrorP">{{msgerrorE}}</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input item-input-outline item-input-with-info">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Confirmar E-mail</div>
+                            <div class="item-input-wrap">
+                                {{input type="email" value=emailConfirm placeholder="Confirmar Email" required=true}}
+                                <span class="input-clear-button"></span>
+                                <div class="item-input-info msgerrorP">{{msgerrorE}}</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input item-input-outline">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Senha</div>
+                            <div class="item-input-wrap">
+                                {{input type="password" value=passwordLogin placeholder="Senha" required=true}}
+                                <span class="input-clear-button"></span>
+                                <div class="item-input-info msgerrorP">{{msgerrorS}}</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input item-input-outline">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Confirmar Senha</div>
+                            <div class="item-input-wrap">
+                                {{input type="password" value=passwordConfirm placeholder="Confirmar Senha" required=true}}
+                                <span class="input-clear-button"></span>
+                                <div class="item-input-info msgerrorP">{{msgerrorS}}</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--button type="submit" value="submit" {{action "registerEmail"}}
+                class="button button-block  color-green entrar">
+                <span>
+                    Confirmar Cadastro
+                </span>
+            </button-->
+            <input id="btn-confirm-cad" class="button button-block color-green entrar" type="submit"
+                value="Confirmar Cadastro">
+        </form>
+    </div>
+</div>
+
+<!--div class="col-sm-6 col-sm-offset-3" stye="text-align: center">
+    <form {{action 'authenticate' on='submit'}}>
+        <label for="email">Email</label>
+        {{input id='email' placeholder='Enter Login' value=email class="form-control"}}
+        <label for="password">Password</label>
+        {{input id='password' placeholder='Enter Password' type='password' value=password class="form-control"}}
+        <br>
+        <button type="submit" class="button button-fill color-green">Entrar</button>
+    </form>
+</div-->

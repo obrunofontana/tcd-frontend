@@ -1,0 +1,11 @@
+<div class="menu">
+    {{#if session.isAuthenticated}}  
+    <button  {{action 'logout'}} class="button button-fill color-orange"> Sair </button>
+    {{else}}
+    {{#link-to 'login'}}Entrar{{/link-to}}
+    {{/if}}
+</div>
+
+<div class="main">
+    {{outlet}}
+</div>

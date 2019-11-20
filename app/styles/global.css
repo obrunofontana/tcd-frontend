@@ -1,0 +1,9 @@
+body {
+    height: 100%;
+}
+
+.btn-default {
+    background-color: #F34A38;
+    color: wheat;
+    font-family: 'Montserrat Alternates', sans-serif;
+}

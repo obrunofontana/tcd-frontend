@@ -2,10 +2,10 @@
   "name": "frontend-rodizcar",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for frontend-rodizcar goes here",
+  "description": "Frontend Aplicação Rodizcar Trabalho TCD",
   "repository": "",
   "license": "MIT",
-  "author": "",
+  "author": "Bruno Fontana",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -48,5 +48,10 @@
   },
   "engines": {
     "node": "8.* || >= 10.*"
+  },
+  "dependencies": {
+    "ember-simple-auth": "^2.1.0",
+    "ember-simple-auth-token": "^4.0.7",
+    "framework7": "^5.1.3"
   }
 }

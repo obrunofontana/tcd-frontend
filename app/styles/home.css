@@ -1,0 +1,34 @@
+#cent{
+    margin: 0 auto !important;
+}
+
+.ml-0 {
+    margin-left: 0 !important;
+}
+
+.card {
+    width: 100%;
+}
+
+.card-content img {
+    margin: 0 auto;
+    display: flex;
+    width: 5em;
+}
+
+
+.card-footer {
+    border-bottom: 1px solid;
+}
+.card-footer p {
+    display: flex;
+    margin: 0 auto;
+ 
+}
+
+
+.home {
+    color: wheat;
+    background-color: #282828;
+    
+}
