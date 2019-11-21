@@ -43,7 +43,9 @@ export default Controller.extend({
     statusLoadMun: false,
 
     //Variaveis de controle objetos  
-    infoVeiculo: {},
+    infoVeiculo: "",
+    urlInfoVeiculo: "",
+
 
     page: 1,
 
@@ -514,27 +516,45 @@ export default Controller.extend({
         },
         setSelectAno: function (selected) {
             this.set('anoSelected', selected);
-            let marca = this.get('marcaSelected');
-            let veiculo = this.get('veiculoSelectd');
-            let ano = this.get('anoSelected');
 
-            console.log('DEBUG....:' + ' Marca: ' + marca + ' Veiculo: ' + veiculo + ' Ano: ' + ano);
+            let marca = this.get('marcaSelected'),
+                veiculo = this.get('veiculoSelectd'),
+                ano = this.get('anoSelected');
 
-            //to-do: Alimentar as informações do Veiculo do Usuário aqui    
+            this.set('urlInfoVeiculo', `http://fipeapi.appspot.com/api/1/carros/veiculo/${marca}/${veiculo}/${ano}.json`);
 
-            //Pensar como fazer para salvar as informações do carro no usuário
         },
         nextStep(step) {
 
             switch (step) {
                 case 'address':
+                    let kilometragem = this.get('kmRodados');
 
                     this.loadEstados();
 
                     this.set('stepCar', false);
                     this.set('stepAddress', true);
 
-                    console.log('Salvar Carro!');
+                    this.get('ajax').request(this.get('urlInfoVeiculo'))
+                        .then(result => {
+
+                            let veiculo = {
+                                name: result.name,
+                                combustivel: result.combustivel,
+                                marca: result.marca,
+                                anoModelo: result.anoModelo,
+                                kilometragem: kilometragem
+                            }
+
+                            //Preparo as informações 
+                            this.set('infoVeiculo', JSON.stringify(veiculo));
+
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        });
+
+                    console.log('DEBUG....:', this.get('infoVeiculo'));
 
                     break;
                 case 'addressDestination':
@@ -545,13 +565,13 @@ export default Controller.extend({
                     break;
 
             }
-
-
         },
         setSelectEstado(selected, defaul = "") {
             this.set('estadoSelect', selected);
             let estado = this.get('estadoSelect');
             let padrao = "";
+
+            console.log('DEBUG....:', this.get('infoVeiculo'));
 
             padrao = defaul;
 
