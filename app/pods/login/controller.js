@@ -37,44 +37,58 @@ export default Controller.extend({
         //Registra um novo usuário
         async register() {
 
-            //objeto user que será registrado
-            let user = this.store.createRecord('user', {
-                email: this.get('emailLogin'),
-                password: this.get('passwordLogin'),
-                name: this.get('name'),
-                photo: 'images/userDefault.svg',
-                zipCode: '',
-                state: '',
-                city: '',
-                address: '',
-                destinationAddress: '',
-                vehicles: ''
-            });         
 
-            user.save();
-            //Defino opções para a requisição
-           /* let requestOptions = {
+            let teste = JSON.stringify({
+                email: "amanda@gmail.com",
+                password: "123456"
+            });
+
+
+            //this.get('emailLogin')
+
+            //objeto user que será registrado
+            /*let user = this.store.createRecord('user', {
+                email: useraux,
+                password: senha,
+                name: "bruno",
+                photo: "images/userDefault.svg",
+                zipCode: "",
+                state: "",
+                city: "",
+                address: "",
+                destinationAddress: "",
+                vehicles: ""
+            });*/
+            let options = {
                 method: 'POST',
-                data: JSON.stringify(user),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json"
+                data: teste,
+
             }
+            console.log(teste);
+
+                this.get('ajax').request('/users', options)
+                    .then(result =>{
+                        console.log(result);
+                    })
+                    .catch(err =>{
+                        console.error(err);
+                    })
+
+            /*user.save().then(result =>{
+                 console.log('deu boa');
+             })
+             .catch(error =>{
+                 console.log('deu ruim');
+                 console.error(JSON.stringify(error.errors.detail));
+             });*/
+            //Defino opções para a requisição
+
 
             //Defino o email e senha se arequisição do post for bem sucedida chamo authenticação novamente;
-            this.set('email', user.email);
-            this.set('password', user.password);
+            //  this.set('email', user.email);
+            //  this.set('password', user.password);
 
-            //console.log(t,x);
 
-            //Faz o post da requisição
-            this.get('ajax').request('/users', requestOptions)
-                .then(result => {
-
-                    this.send('authenticate');
-                })
-                .catch((err) => {
-                    console.log(err);
-                });*/
 
         }
     }

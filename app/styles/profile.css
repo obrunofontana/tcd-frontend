@@ -32,7 +32,8 @@
     --f7-input-outline-invalid-border-color: var(--f7-input-error-text-color);
     */
     --f7-input-clear-button-size: 14px;
-   /* --f7-input-text-color: #fff;*/
+    --f7-input-text-color: #fff;
+    
     --f7-input-info-text-color: #fff;
     --f7-input-placeholder-color: #F34A38;
     --f7-label-text-color: #F34A38;

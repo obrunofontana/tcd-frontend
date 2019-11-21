@@ -93,6 +93,7 @@ hr {
 .list ul {
     width: 22em;
     margin: 0 auto;
+    background-color: #282828;
 }
 
 .list ul li {
@@ -124,12 +125,14 @@ hr {
 #tabs1 {
     width: 50%;
     margin: 0 auto;
+    color: #fff;
     position: block;
 }
 
 #tabs2 {
     width: 50%;
     margin: 0 auto;
+    color: #FFF;
     position: block;
 }
 
@@ -137,4 +140,8 @@ hr {
 
 #formCadastro li {
     padding-bottom: 0;
+}
+
+#tab-content1 {
+    background-color: #282828;
 }
