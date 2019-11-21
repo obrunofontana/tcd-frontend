@@ -1,1 +1,18 @@
-{{outlet}}
+<div class="page" data-name="home">
+    <div class="page-content">
+        <h2>{{model.welcomeTitle}}</h2>
+        <p>
+            {{model.welcomeContent}}
+        </p>
+        <p>
+            {{model.welcomePropos}}
+        </p>
+
+        {{#link-to "profile"}}
+        <button class="button button-block button-outline color-red w-btn1"> possuo meu carro </button>
+        {{/link-to}}
+
+        <button {{action "unavaible"}} class="button button-block button-outline color-red w-btn2"> dividir despesas
+        </button>
+    </div>
+</div>

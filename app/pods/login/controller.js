@@ -35,21 +35,12 @@ export default Controller.extend({
             }
         },
         //Registra um novo usuário
-        async register() {
-
-
-            let teste = JSON.stringify({
-                email: "amanda@gmail.com",
-                password: "123456"
-            });
-
-
-            //this.get('emailLogin')
+        async register() {   
 
             //objeto user que será registrado
-            /*let user = this.store.createRecord('user', {
-                email: useraux,
-                password: senha,
+            let user = this.store.createRecord('user', {
+                email: this.get('emailLogin'),
+                password: this.get('passwordLogin'),
                 name: "bruno",
                 photo: "images/userDefault.svg",
                 zipCode: "",
@@ -58,28 +49,15 @@ export default Controller.extend({
                 address: "",
                 destinationAddress: "",
                 vehicles: ""
-            });*/
-            let options = {
-                method: 'POST',
-                data: teste,
-
-            }
-            console.log(teste);
-
-                this.get('ajax').request('/users', options)
-                    .then(result =>{
-                        console.log(result);
-                    })
-                    .catch(err =>{
-                        console.error(err);
-                    })
-
-            /*user.save().then(result =>{
-                 console.log('deu boa');
+            });         
+            console.log('user', user);
+         
+          /*  user.save().then(result =>{
+                 console.log('deu boa', result);
              })
              .catch(error =>{
-                 console.log('deu ruim');
-                 console.error(JSON.stringify(error.errors.detail));
+                 console.log('deu ruim', error);
+               
              });*/
             //Defino opções para a requisição
 
@@ -87,9 +65,6 @@ export default Controller.extend({
             //Defino o email e senha se arequisição do post for bem sucedida chamo authenticação novamente;
             //  this.set('email', user.email);
             //  this.set('password', user.password);
-
-
-
         }
     }
 });

@@ -7,7 +7,6 @@ const { inject: { service }, RSVP } = Ember;
 
 export default Service.extend({
     session: service(),
-    store: service(),
     ajax: service(),
 
     load() {
@@ -16,13 +15,13 @@ export default Service.extend({
 
             const token = this.get('session.data.authenticated.token');
 
-
             if (!Ember.isEmpty(token)) {
                 this.get('session.data.authenticated.user')
                 resolve();
             } else {
                 reject();
             }
+
         });
 
         /*console.log(this.get('session.isAuthenticated'))

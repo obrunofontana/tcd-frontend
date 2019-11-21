@@ -1,1 +1,186 @@
-{{outlet}}
+<div class="page page-current" data-name="home">
+    <div class="page-content">
+
+
+        {{#if stepCar}}
+        <h3>
+            Informações sobre seu carro
+        </h3>
+        <form {{action 'nextStep' "address" on='submit'}}>
+            <!-- Info. Carro   -->
+            <select class="button button-block  btn-default" onchange={{action "setSelectMarca" value="target.value"}}
+                required>
+                <option disabled selected> -- Selecione a Marca -- </option>
+                {{#each model as |brand|}}
+                <option value={{brand.key}}>{{brand.name}}</option>
+                {{/each}}
+            </select>
+
+            <select class="button button-block  btn-default" onchange={{action "setSelectVeic" value="target.value"}}
+                required>
+                <option disabled selected> -- Selecione o Modelo -- </option>
+                {{#each veiculos as |veiculo|}}
+                <option value={{veiculo.key}}>{{veiculo.name}}</option>
+                {{/each}}
+            </select>
+
+            <select required class="button button-block btn-default"
+                onchange={{action "setSelectAno" value="target.value"}}>
+                <option disabled selected> -- Selecione o Ano Modelo -- </option>
+                {{#each anoModelo as |anoModel|}}
+                <option value={{anoModel.key}}>{{anoModel.name}}</option>
+                {{/each}}
+            </select>
+            <!-- /Info-->
+
+            <div class="list input-km">
+                <ul class="input-km">
+                    <li class="item-content item-input item-input-outline  input-km">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">KM Rodados</div>
+                            <div class="item-input-wrap">
+                                {{input type="number" value=name placeholder="KM Rodados" required=true}}
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- Confirmar o Cadastro do Carro e Dar sequencia no cadastro -->
+            <button type="submit" class="fab fab-center-bottom  arrow-left fa fa-angle-double-right fa-3x">
+            </button>
+
+
+        </form>
+        {{/if }}
+
+        {{#if stepAddress}}
+        <h3>
+            Informações sobre seu endereço
+        </h3>
+
+        <form {{action 'nextStep' "addressDestination" on='submit'}} id="form-endereco">
+
+            <div class="list input-cep">
+                <ul class="input-cep">
+                    <li class="item-content item-input item-input-outline  input-cep">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">CEP</div>
+                            <div class="item-input-wrap">
+                                <!--  {{input type="number" value=cep placeholder="CEP" required=true input=(action "findCep") max="8"}} -->
+                                {{#if selected}}
+                                {{input value=cep name=cep id="cep"}}
+                                {{else}}
+                                {{input-numeric value=cep name="cep" id="cep" maxlength="8"  input=(action "findCep") }}
+                                {{/if}}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="row row-end">
+                <div class="col-xs-12">
+                    <div class="divider">
+                        <strong class="divider-title ng-binding">ou</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info. Carro   -->
+
+            <select class="button button-block  btn-default bt-state"
+                onchange={{action "setSelectEstado" value="target.value"}}>
+                <option disabled selected> -- Selecione seu Estado -- </option>
+                {{#each estados as |estado|}}
+                <option value={{estado.key}}>{{estado.name}}</option>
+                {{/each}}
+            </select>
+
+            {{#if byCep}}
+            <select class="button button-block  btn-default bt-city"
+                onchange={{action "setSelectMun" value="target.value"}}>
+                <option disabled selected> -- Selecione sua Cidade -- </option>
+                {{#each municipios as |municipio|}}
+                <option value={{municipio.name}}>{{municipio.name}}</option>
+                {{/each}}
+            </select>
+            {{else}}
+            <select class="button button-block  btn-default bt-city2"
+                onchange={{action "setSelectMun" value="target.value"}}>
+                <option disabled selected> -- Selecione sua Cidade -- </option>
+                {{#each municipios as |municipio|}}
+                <option value={{municipio.id}}>{{municipio.name}}</option>
+                {{/each}}
+            </select>
+            {{/if}}
+
+
+            <!-- /Info. Carro    -->
+
+            <div class="list input-km">
+                <ul class="input-km">
+                    {{#if byCep}}
+                    <li class="item-content item-input item-input-outline  input-km">
+                        <div class="item-inner">
+                            <div class="item-input-wrap">
+                                <label>Endereço</label>
+                                <PowerSelect id="input-power" @searchEnabled={{true}} @search={{this.searchLog}}
+                                    @selected={{this.selected}} @onChange={{action (mut this.selected)}} as |end|>
+                                    {{end.logradouro}}
+                                </PowerSelect>
+                            </div>
+                        </div>
+                    </li>
+                    {{else}}
+                    <li class="item-content item-input item-input-outline  input-km">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Endereço</div>
+                            <div class="item-input-wrap">
+                                {{input type="text" value=endereco placeholder="Endereço" required=true id="input-endereco"}}
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                    {{/if}}
+
+                    <li class="item-content item-input item-input-outline  input-km">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Bairro</div>
+                            <div class="item-input-wrap">
+                                {{input type="text" value=bairro placeholder="Bairro" required=true id="input-bairro"}}
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input item-input-outline  input-km">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Número</div>
+                            <div class="item-input-wrap">
+                                {{input  type="number" value=nroCasa placeholder="Número" required=true id="input-nrCasa"}}
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <button type="submit" class="fab fab-center-bottom  arrow-left fa fa-angle-double-right fa-3x">
+            </button>
+        </form>
+        {{/if}}
+
+        {{#if stepAddressDestination}}
+        <h3>
+            Informações sobre seu endereço destino
+        </h3>
+        <h1>DEU BOA</h1>
+
+
+        <button type="submit" class="fab fab-center-bottom  arrow-left fa fa-angle-double-right fa-3x">
+        </button>
+
+        {{/if}}
+
+    </div>
+</div>

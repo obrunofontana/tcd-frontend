@@ -1,11 +1,21 @@
-<div class="menu">
-    {{#if session.isAuthenticated}}  
-    <button  {{action 'logout'}} class="button button-fill color-orange"> Sair </button>
-    {{else}}
-    {{#link-to 'login'}}Entrar{{/link-to}}
-    {{/if}}
+{{#if session.isAuthenticated}}
+<div class="navbar">
+    <div class="navbar-bg"></div>
+    <div class="navbar-inner">
+        <div class="left">
+            <a href="#" class="link btn">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+        <div id="cent" class="title"><img src="images/logoBlack.svg" alt=""></div>
+        <div class="right ml-0">
+            <a {{action "logout"}} class="link btn">
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
 </div>
-
+{{/if}}
 <div class="main">
     {{outlet}}
 </div>

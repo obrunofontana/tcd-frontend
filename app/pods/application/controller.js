@@ -9,8 +9,7 @@ export default Controller.extend(ApplicationRouteMixin, {
     actions: {
 
         logout() {
-            this.get('session').invalidate();
-            this.transitionTo('login');
+            this.transitionToRoute('login');
         }
     }
 });

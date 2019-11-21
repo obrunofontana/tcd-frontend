@@ -7,8 +7,7 @@ export default Route.extend(ApplicationRouteMixin, {
 
     sessionCurrentUser: service('current-user'),
 
-    beforeModel() {
-        this.transitionTo('login');        
+    beforeModel() {             
         return this._loadCurrentUser();
     },
 
@@ -23,6 +22,7 @@ export default Route.extend(ApplicationRouteMixin, {
         return this.get('sessionCurrentUser').load().then(() => {
             this.transitionTo('home');
         }).catch(() => {
+            this.transitionTo('login');
             this.get('session').invalidate()
         });
     },
