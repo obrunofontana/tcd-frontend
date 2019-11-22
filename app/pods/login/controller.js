@@ -22,7 +22,7 @@ export default Controller.extend({
                 //Se autenticar, faço verificação se o usuário já possui um veiculo
                 let currentUser = this.get('session.data.authenticated.user');
 
-                console.log(currentUser);
+                //console.log(currentUser);
 
                 if (!isEmpty(currentUser.vehicles)) {
                     this.transitionToRoute('home');
@@ -50,7 +50,7 @@ export default Controller.extend({
                 destinationAddress: "",
                 vehicles: ""
             });         
-            console.log('user', user);
+           console.log('user', user);
          
           /*  user.save().then(result =>{
                  console.log('deu boa', result);

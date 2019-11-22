@@ -99,19 +99,22 @@
             </select>
 
             {{#if byCep}}
+
+            <select class="button button-block  btn-default bt-city2"
+                onchange={{action "setSelectMun" value="target.value"}}>
+                <option disabled selected> -- Selecione sua Cidade -- </option>
+                {{#each municipios as |municipio|}}
+                <option value={{municipio.key}}>{{municipio.name}}</option>
+                {{/each}}
+            </select>
+
+            {{else}}
+
             <select class="button button-block  btn-default bt-city"
                 onchange={{action "setSelectMun" value="target.value"}}>
                 <option disabled selected> -- Selecione sua Cidade -- </option>
                 {{#each municipios as |municipio|}}
                 <option value={{municipio.name}}>{{municipio.name}}</option>
-                {{/each}}
-            </select>
-            {{else}}
-            <select class="button button-block  btn-default bt-city2"
-                onchange={{action "setSelectMun" value="target.value"}}>
-                <option disabled selected> -- Selecione sua Cidade -- </option>
-                {{#each municipios as |municipio|}}
-                <option value={{municipio.id}}>{{municipio.name}}</option>
                 {{/each}}
             </select>
             {{/if}}
@@ -122,6 +125,17 @@
             <div class="list input-km">
                 <ul class="input-km">
                     {{#if byCep}}
+
+                    <li class="item-content item-input item-input-outline  input-km">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Endereço</div>
+                            <div class="item-input-wrap">
+                                {{input type="text" value=endereco placeholder="Endereço" required=true id="input-endereco"}}
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                    {{else}}
                     <li class="item-content item-input item-input-outline  input-km">
                         <div class="item-inner">
                             <div class="item-input-wrap">
@@ -130,16 +144,6 @@
                                     @selected={{this.selected}} @onChange={{action (mut this.selected)}} as |end|>
                                     {{end.logradouro}}
                                 </PowerSelect>
-                            </div>
-                        </div>
-                    </li>
-                    {{else}}
-                    <li class="item-content item-input item-input-outline  input-km">
-                        <div class="item-inner">
-                            <div class="item-title item-floating-label">Endereço</div>
-                            <div class="item-input-wrap">
-                                {{input type="text" value=endereco placeholder="Endereço" required=true id="input-endereco"}}
-                                <span class="input-clear-button"></span>
                             </div>
                         </div>
                     </li>

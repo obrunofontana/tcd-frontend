@@ -1,6 +1,9 @@
 import Controller from '@ember/controller';
 import fetch from 'fetch';
 import { observer } from '@ember/object';
+import { isEmpty } from '@ember/utils';
+
+const { inject: RSVP } = Ember;
 
 export default Controller.extend({
     session: Ember.inject.service(),
@@ -39,7 +42,7 @@ export default Controller.extend({
     municipios: [], //array com municipios
 
 
-    byCep: true,
+    byCep: false,
     statusLoadMun: false,
 
     //Variaveis de controle objetos  
@@ -231,30 +234,64 @@ export default Controller.extend({
         })
 
     },
-    loadMunicipiosByEst(estId) {
+    loadMunicipiosByEst(estId, param = "") {      
 
-        this.get('ajax').request('/counties/state/' + estId)
-            .then((data) => {
+        //Quando realizo a busca pelo CEP, carrego apenas o municipo do CEP digitado
+        if (this.get('byCep')) {           
 
-                if (data.result.length > 0) {
-                    this.set('ufEstadoSelect', data.result[0].uf);
-                    this.set('statusLoadMun', true);
-                    return this.set('municipios', data.result);
-                } else {
-                    return this.getMunicipiosByEst(estId);
-                }
+            return new Promise((resolve, reject) => {
+
+                this.get('ajax').request('/counties/' + param)
+                    .then((data) => {
+
+                        if (data.result.length > 0) {
+                            this.set('ufEstadoSelect', data.result[0].uf);
+
+                            resolve(this.set('municipios', data.result));
+
+                        } else {
+                            resolve(this.getMunicipiosByEst(estId));
+                        }
 
 
-            })
-            .catch((e) => {
-                return console.error(e);
+                    })
+                    .catch((e) => {
 
+                        reject(e);
+                    });
 
             });
+
+
+
+        } else {
+            //Se a busca é realizada pelo estado, busco todos os municipios deste estado.
+            return new Promise((resolve, reject) => {
+
+                this.get('ajax').request('/counties/state/' + estId)
+                    .then((data) => {
+
+                        if (data.result.length > 0) {
+                            this.set('ufEstadoSelect', data.result[0].uf);
+
+                            resolve(this.set('municipios', data.result));
+
+                        } else {
+                            resolve(this.getMunicipiosByEst(estId));
+                        }
+
+                    })
+                    .catch((e) => {
+
+                        reject(e);
+                    });
+
+            });
+
+        }
+
     },
     getMunicipiosByEst(est) {
-
-        console.log('getMuniciby est', est);
 
         this.get('ajax').request('https://servicodados.ibge.gov.br/api/v1/localidades/estados/' + est + '/municipios')
             .then((data) => {
@@ -383,12 +420,10 @@ export default Controller.extend({
 
         },
         findCep() {
-            this.set('byCep', false);
+            this.set('byCep', true);
 
             let valor = this.get('cep');
             let lThis = this;
-
-
 
             //Nova variável "cep" somente com dígitos.
             var cep = valor.replace(/\D/g, '');
@@ -465,7 +500,7 @@ export default Controller.extend({
             else {
                 //cep sem valor, limpa formulário.
                 console.log('limpa form');
-                this.set('byCep', true);
+                this.set('byCep', false);
                 let btState = window.document.querySelector(".bt-state");
                 let btCity2 = window.document.querySelector(".bt-city2");
 
@@ -553,9 +588,6 @@ export default Controller.extend({
                         .catch(err => {
                             console.error(err);
                         });
-
-                    console.log('DEBUG....:', this.get('infoVeiculo'));
-
                     break;
                 case 'addressDestination':
                     this.set('stepAddress', false);
@@ -569,28 +601,24 @@ export default Controller.extend({
         setSelectEstado(selected, defaul = "") {
             this.set('estadoSelect', selected);
             let estado = this.get('estadoSelect');
-            let padrao = "";
+            
+            if (isEmpty(defaul)) {
 
-            console.log('DEBUG....:', this.get('infoVeiculo'));
-
-            padrao = defaul;
-
-            if (!padrao.length != 0) {
-                this.loadMunicipiosByEst(estado);
+                this.loadMunicipiosByEst(estado).then(resul => {
+                    console.log('Carregou municipos com sucesso!');
+                }).catch(e => {
+                    console.error(e);
+                })
 
             } else {
-                this.loadMunicipiosByEst(estado);
+                this.loadMunicipiosByEst(estado, defaul)
+                    .then(result => {                 
+                        window.document.querySelector(".bt-city2").value = defaul;
 
-                let btCity = window.document.querySelector(".bt-city2");
-
-                if (this.get('statusLoadMun')) {
-
-                    setTimeout(function () {
-                        btCity.value = defaul;
-
-
-                    }, 200);
-                }
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
             }
         },
         setSelectMun(selected) {
@@ -606,16 +634,6 @@ export default Controller.extend({
             console.log(selectedOption);
             //To-Do: Aqui será atualizado as informações do usuário:
             // adicionando um novo veiculo ao mesmo. 
-        },
-
-        testarRequest() {
-            console.log('bucetinha eu curto')
-            this.get('ajax').request('/users').then(result => {
-                console.log(result);
-            })
-        },
-
-
-
+        },  
     }
 });

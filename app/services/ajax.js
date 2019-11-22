@@ -10,12 +10,12 @@ export default AjaxService.extend({
         get() {
             let headers = {};
             const token = this.get('session.data.authenticated.token');
-            console.log(token);
+           // console.log(token);
             //data.authenticated.token
             if (token) {
                 headers['Authorization'] = `Bearer ${token}`;                
             }
-            console.log(headers)
+            //console.log(headers)
             return headers;
         }
     })
