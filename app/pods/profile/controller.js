@@ -21,6 +21,7 @@ export default Controller.extend({
     stepAddressDestination: false,
 
 
+
     //Variavel de Controle null's 
     upd: null,
     selec: null,
@@ -48,6 +49,8 @@ export default Controller.extend({
     //Variaveis de controle objetos  
     infoVeiculo: "",
     urlInfoVeiculo: "",
+
+    addressTemp: {},
 
 
     page: 1,
@@ -234,20 +237,23 @@ export default Controller.extend({
         })
 
     },
-    loadMunicipiosByEst(estId, param = "") {      
+    loadMunicipiosByEst(estId, param = "") {
 
         //Quando realizo a busca pelo CEP, carrego apenas o municipo do CEP digitado
-        if (this.get('byCep')) {           
+        if (this.get('byCep')) {
 
             return new Promise((resolve, reject) => {
 
                 this.get('ajax').request('/counties/' + param)
                     .then((data) => {
 
-                        if (data.result.length > 0) {
-                            this.set('ufEstadoSelect', data.result[0].uf);
+                        if (!isEmpty(data.result)) {
+                            this.set('ufEstadoSelect', data.result.uf);
+                            let aResult = [];
 
-                            resolve(this.set('municipios', data.result));
+                            aResult.push(data.result);
+
+                            resolve(this.set('municipios', aResult));
 
                         } else {
                             resolve(this.getMunicipiosByEst(estId));
@@ -343,10 +349,14 @@ export default Controller.extend({
 
     },
     getUfMun() {
+
         let obj = {
             uf: this.get('ufEstadoSelect'),
             countie: this.get('municipioSelect')
         }
+
+
+
         return obj;
 
     },
@@ -354,13 +364,25 @@ export default Controller.extend({
 
     searchLog(term) {
         //  let uf = window.document.querySelector(".bt-state").value;
+        let countie;
+        let localidade = window.document.getElementById('inputGCity').value;
 
-        let countie = window.document.querySelector(".bt-city").value;
+        if (isEmpty(localidade)) {
+
+            countie = window.document.querySelector(".bt-city").value;
+
+        } else {
+            countie = localidade;
+        }
+
+
+        // let stataAux = this.getUfMun();
+        let uf = 'PR'; //to-do: Pensar em uma forma de pegar o estado
 
         //verifico se a string é mair que 3 pois a URL só é válida se possuir mai de 3 caracteres como busca;
         if (term.length > 3) {
 
-            let url = `http://viacep.com.br/ws/PR/${countie}/${term}/json`;
+            let url = `http://viacep.com.br/ws/${uf}/${countie}/${term}/json`;
 
             return fetch(url).then((resp) => resp.json())
                 .then((data) => {
@@ -395,27 +417,36 @@ export default Controller.extend({
     actions: {
         loadInfos() {
             let obj = this.get('selected');
+            let inpAux = window.document.getElementById('inputGCity');
+            
+            this.set('addressTemp', obj);
 
-            let inBairro = window.document.getElementById('input-bairro');
-            let inCep = window.document.getElementById('cep');
 
-            //Atribuo os valores para os inputs
-            inBairro.value = obj.bairro;
-            this.set('cep', obj.cep); //Atribuio desta forma quando buscado por endereço e não valor digitado
+            if (!isEmpty(obj) && isEmpty(inpAux)) {
+                let inBairro = window.document.getElementById('input-bairro');
+                let inCep = window.document.getElementById('cep');
 
-            //Tratamento dos items da lista, adicionando a classe para o comportamento do component não se perca
-            let elLiBairr = inBairro.parentElement.parentElement.parentElement.parentElement;
-            let elLiCep = inCep.parentElement.parentElement.parentElement.parentElement;
+                //Atribuo os valores para os inputs
+                inBairro.value = obj.bairro;
 
-            if (elLiBairr.classList || elLiCep.classList) {
 
-                elLiBairr.classList.add('item-input-with-value');
-                elLiCep.classList.add('item-input-with-value');
+                this.set('cep', parseInt(obj.cep.replace('-', ''))); //Atribuio desta forma quando buscado por endereço e não valor digitado
 
-            } else {
 
-                elLiBairr.className += ' item-input-with-value';
-                elLiCep.className += ' item-input-with-value';
+                //Tratamento dos items da lista, adicionando a classe para o comportamento do component não se perca
+                let elLiBairr = inBairro.parentElement.parentElement.parentElement.parentElement;
+                let elLiCep = inCep.parentElement.parentElement.parentElement.parentElement;
+
+                if (elLiBairr.classList || elLiCep.classList) {
+
+                    elLiBairr.classList.add('item-input-with-value');
+                    elLiCep.classList.add('item-input-with-value');
+
+                } else {
+
+                    elLiBairr.className += ' item-input-with-value';
+                    elLiCep.className += ' item-input-with-value';
+                }
             }
 
         },
@@ -442,6 +473,7 @@ export default Controller.extend({
                         this.get('ajax').request('https://viacep.com.br/ws/' + cep + '/json/')
                             .then(data => {
                                 //console.log(data.ibge.trim().substr(0, 2) + ' - ' + data.ibge + JSON.stringify(data));
+                                this.set('addressTemp', data);
 
                                 let btState = window.document.querySelector(".bt-state");
                                 btState.value = data.ibge.substr(0, 2);
@@ -492,20 +524,20 @@ export default Controller.extend({
                 } else {
                     //Cep com caracteres a menos
                     console.log('cep com menos de 8 digitos');
+                    this.set('selected', '');
 
                 }
 
 
             } //end if.
             else {
-                //cep sem valor, limpa formulário.
-                console.log('limpa form');
+                //cep sem valor, limpa formulário.              
                 this.set('byCep', false);
-                let btState = window.document.querySelector(".bt-state");
-                let btCity2 = window.document.querySelector(".bt-city2");
+                this.set('selected', '');
+                window.document.querySelector(".bt-state").value = "-- Selecione seu Estado --";
+                window.document.querySelector(".bt-city2").value = "-- Selecione seu Estado --";
+                window.document.getElementById('input-bairro').value = "";
 
-                btState.value = "-- Selecione seu Estado --";
-                btCity2.value = "-- Selecione seu Estado --";
 
             }
         },
@@ -591,7 +623,21 @@ export default Controller.extend({
                     break;
                 case 'addressDestination':
                     this.set('stepAddress', false);
+
+                    let endTemp = this.get('addressTemp');
+
+                    console.log(this.getUfMun());
+
                     this.set('stepAddressDestination', true);
+
+                    setTimeout(function () {
+                        window.document.getElementById('inputGCity').value = endTemp.localidade;
+
+                        alert("Hello");
+                    }, 200);
+
+
+
 
                 default:
                     break;
@@ -601,7 +647,7 @@ export default Controller.extend({
         setSelectEstado(selected, defaul = "") {
             this.set('estadoSelect', selected);
             let estado = this.get('estadoSelect');
-            
+
             if (isEmpty(defaul)) {
 
                 this.loadMunicipiosByEst(estado).then(resul => {
@@ -612,7 +658,7 @@ export default Controller.extend({
 
             } else {
                 this.loadMunicipiosByEst(estado, defaul)
-                    .then(result => {                 
+                    .then(result => {
                         window.document.querySelector(".bt-city2").value = defaul;
 
                     })
@@ -634,6 +680,6 @@ export default Controller.extend({
             console.log(selectedOption);
             //To-Do: Aqui será atualizado as informações do usuário:
             // adicionando um novo veiculo ao mesmo. 
-        },  
+        },
     }
 });

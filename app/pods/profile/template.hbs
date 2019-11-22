@@ -66,13 +66,10 @@
                     <li class="item-content item-input item-input-outline  input-cep">
                         <div class="item-inner">
                             <div class="item-title item-floating-label">CEP</div>
-                            <div class="item-input-wrap">
-                                <!--  {{input type="number" value=cep placeholder="CEP" required=true input=(action "findCep") max="8"}} -->
-                                {{#if selected}}
-                                {{input value=cep name=cep id="cep"}}
-                                {{else}}
+                            <div class="item-input-wrap">                              
+                               
                                 {{input-numeric value=cep name="cep" id="cep" maxlength="8"  input=(action "findCep") }}
-                                {{/if}}
+                            
                             </div>
                         </div>
                     </li>
@@ -178,11 +175,29 @@
         <h3>
             Informações sobre seu endereço destino
         </h3>
-        <h1>DEU BOA</h1>
 
+        <form {{action 'nextStep' "home" on='submit'}} id="form-enderecoDestino">    
 
-        <button type="submit" class="fab fab-center-bottom  arrow-left fa fa-angle-double-right fa-3x">
-        </button>
+            <div class="list input-km">
+                <ul class="input-km">                 
+                    <li class="item-content item-input item-input-outline  input-km">
+                        <div class="item-inner">
+                            <div class="item-input-wrap">
+                                <label>Endereço Destino</label>
+                                <PowerSelect id="input-power" @searchEnabled={{true}} @search={{this.searchLog}}
+                                    @selected={{this.selected}} @onChange={{action (mut this.selected)}} as |end|>
+                                    {{end.logradouro}}
+                                </PowerSelect>
+                            </div>
+                        </div>
+                    </li>                
+                </ul>
+            </div>         
+        
+            {{input type="text" value=inputGCity placeholder="input" required=true id="inputGCity"}}
+            <button type="submit" class="fab fab-center-bottom  arrow-left fa fa-angle-double-right fa-3x">
+            </button>
+        </form>  
 
         {{/if}}
 
