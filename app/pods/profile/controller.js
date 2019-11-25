@@ -20,8 +20,6 @@ export default Controller.extend({
     stepAddress: false,
     stepAddressDestination: false,
 
-
-
     //Variavel de Controle null's 
     upd: null,
     selec: null,
@@ -51,9 +49,6 @@ export default Controller.extend({
     urlInfoVeiculo: "",
 
     addressTemp: {},
-
-
-    page: 1,
 
     getVeiculosByMarca(marca) {
 
@@ -350,15 +345,10 @@ export default Controller.extend({
     },
     getUfMun() {
 
-        let obj = {
+        return {
             uf: this.get('ufEstadoSelect'),
             countie: this.get('municipioSelect')
-        }
-
-
-
-        return obj;
-
+        };
     },
 
 
@@ -418,7 +408,7 @@ export default Controller.extend({
         loadInfos() {
             let obj = this.get('selected');
             let inpAux = window.document.getElementById('inputGCity');
-            
+
             this.set('addressTemp', obj);
 
 
@@ -523,7 +513,7 @@ export default Controller.extend({
 
                 } else {
                     //Cep com caracteres a menos
-                    console.log('cep com menos de 8 digitos');
+                    //console.log('cep com menos de 8 digitos');
                     this.set('selected', '');
 
                 }
@@ -626,19 +616,70 @@ export default Controller.extend({
 
                     let endTemp = this.get('addressTemp');
 
-                    console.log(this.getUfMun());
+                    this.set('endHomeUser', endTemp);
+
+                    //console.log(this.getUfMun());
 
                     this.set('stepAddressDestination', true);
 
                     setTimeout(function () {
                         window.document.getElementById('inputGCity').value = endTemp.localidade;
-
-                        alert("Hello");
                     }, 200);
+                    break;
+                case 'home':
+                    this.set('stepAddressDestination', false);
+
+                    lThis = this;
+
+                    let enderecoDestination = this.get('addressTemp');
+                    let enderecoHome = this.get('endHomeUser');
+                    let infoVeiculo = JSON.parse(this.get('infoVeiculo'));
+
+                    let dataAux = JSON.stringify({
+                        zipCode: enderecoHome.cep,
+                        state: enderecoHome.uf,
+                        city: enderecoHome.localidade,
+                        address: enderecoHome.logradouro + ', ' + enderecoHome.bairro + ', ' + this.get('nroCasa'),
+                        destinationAddress: {
+                            address: enderecoDestination.logradouro,
+                            zipcode: enderecoDestination.cep,
+                            neib: enderecoDestination.bairro
+                        },
+                        vehicles: {
+                            name: infoVeiculo.name,
+                            fuel: infoVeiculo.combustivel,
+                            brand: infoVeiculo.marca,
+                            km: infoVeiculo.kilometragem
+                        }
+                    });
+
+                    //console.log(dataAux);
+
+                    let email = this.get('session.data.authenticated.user.email');
+                    let password = this.get('session.data.authenticated.user.password');
+
+                    console.log(email, password);
+
+
+                    let options = {
+                        method: 'PATCH',
+                        data: dataAux,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json"
+                    };
+
+                    this.get('ajax').request('/users/' + this.get('session.data.authenticated.user.id'), options)
+                        .then(result => {
+
+                            return lThis.transitionToRoute('home');
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        });
 
 
 
-
+                    break;
                 default:
                     break;
 

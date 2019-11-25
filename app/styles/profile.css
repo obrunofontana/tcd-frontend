@@ -33,7 +33,6 @@
     */
     --f7-input-clear-button-size: 14px;
     --f7-input-text-color: #fff;
-    
     --f7-input-info-text-color: #fff;
     --f7-input-placeholder-color: #F34A38;
     --f7-label-text-color: #F34A38;
@@ -87,4 +86,9 @@
     background-color: #F34A38 !important;
     color: wheat !important;
     font-family: 'Montserrat Alternates', sans-serif !important;
+}
+
+#inputGCity {
+    position: absolute;
+    padding-left: 33em;
 }

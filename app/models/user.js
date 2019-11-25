@@ -10,6 +10,6 @@ export default Model.extend({
     state: DS.attr('string'),
     city: DS.attr('string'),
     address: DS.attr('string'),
-    destinationAddress: DS.attr('string'),
-    vehicles: DS.attr('string')
+    destinationAddress: DS.attr(),
+    vehicles: DS.attr()
 });

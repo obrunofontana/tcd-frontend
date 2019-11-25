@@ -5,6 +5,8 @@ import { isEmpty } from '@ember/utils';
 export default Controller.extend({
     session: service(),
     ajax: service(),
+    messageError: null,
+    idTemp: "",
 
     actions: {
         //Autenticação com API desenvolvida e que está rodando na porta 3000;
@@ -15,56 +17,67 @@ export default Controller.extend({
             try {
                 await this.session.authenticate('authenticator:token', { email, password });
             } catch (error) {
-                this.set('errorMessage', error.error || error);
+                this.set('errorMessage', error.error || error); //Mensagem apenas para dev...
+
+                // console.log(this.get('errorMessage'));
+                let lThis = this;
+
+                let intervalo = setInterval(function () {
+                    lThis.set('messageError', 'Usuário ou senha inválido'); //Utilizar este aqui por questões de segurança             
+                }, 100);
+                setTimeout(function () {
+                    clearInterval(intervalo);
+                    lThis.set('messageError', '');
+                }, 5000);
             }
 
             if (this.session.isAuthenticated) {
                 //Se autenticar, faço verificação se o usuário já possui um veiculo
-                let currentUser = this.get('session.data.authenticated.user');
+                let currentUser = this.get('session.data.authenticated.user');              
 
-                //console.log(currentUser);
+                let vehicle = currentUser.vehicles == {} ? false : true; 
 
-                if (!isEmpty(currentUser.vehicles)) {
-                    this.transitionToRoute('home');
-
-                } else {
+                if (vehicle) {   
+                    this.transitionToRoute('home');                
+                } else {                    
                     this.transitionToRoute('welcome');
                 }
-
-
             }
         },
         //Registra um novo usuário
-        async register() {   
+        async register() {
 
             //objeto user que será registrado
             let user = this.store.createRecord('user', {
                 email: this.get('emailLogin'),
                 password: this.get('passwordLogin'),
-                name: "bruno",
+                name: this.get('name'),
                 photo: "images/userDefault.svg",
                 zipCode: "",
                 state: "",
                 city: "",
                 address: "",
-                destinationAddress: "",
-                vehicles: ""
-            });         
-           console.log('user', user);
-         
-          /*  user.save().then(result =>{
-                 console.log('deu boa', result);
-             })
-             .catch(error =>{
-                 console.log('deu ruim', error);
-               
-             });*/
-            //Defino opções para a requisição
-
+                destinationAddress: {},
+                vehicles: {}
+            });
 
             //Defino o email e senha se arequisição do post for bem sucedida chamo authenticação novamente;
-            //  this.set('email', user.email);
-            //  this.set('password', user.password);
+            this.set('email', user.email);
+            this.set('password', user.password);
+
+            let lThis = this;
+
+
+            user.save()
+                .then(result => {
+
+                    //Realizo a autenticação se ocorrer tudo certo com o cadastro do novo usuário
+                    lThis.send('authenticate');
+
+                })
+                .catch(error => {
+                    console.log('[ERROR]: ', error);
+                });
         }
     }
 });
