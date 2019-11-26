@@ -1,10 +1,14 @@
 body {
     height: 100%;
-    background-color: #282828;
+    background-color: #282828 !important;
 }
 
 .btn-default {
     background-color: #F34A38;
     color: wheat;
     font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.fa-bars {
+    color: #F34A38;
 }

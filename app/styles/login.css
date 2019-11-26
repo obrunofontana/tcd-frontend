@@ -10,8 +10,11 @@
     color: #F34A38;
 }
 
+.main {
+    background-color: #282828;
+}
 .btn {
-    color: #F34A38 !important;
+    color: #F34A38 ;
 }
 
 .redondo {

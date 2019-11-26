@@ -78,6 +78,12 @@ export default Controller.extend({
                 .catch(error => {
                     console.log('[ERROR]: ', error);
                 });
+        },
+
+        forgotPassword() {
+
+            alert('Opção em desenvolvimento');
+
         }
     }
 });

@@ -14,11 +14,18 @@ export default Controller.extend({
 
         this.send('loadInfos');
     }),
+    
 
     //Controle dos Steps
     stepCar: true,
     stepAddress: false,
     stepAddressDestination: false,
+    transitionHome: false,
+    transitionHomeSelected: observer('transitionHome', function () {
+        console.log('observeable: variavel mudou');
+
+        this.transitionToRoute('home');
+    }),
 
     //Variavel de Controle null's 
     upd: null,
@@ -355,14 +362,14 @@ export default Controller.extend({
     searchLog(term) {
         //  let uf = window.document.querySelector(".bt-state").value;
         let countie;
-        let localidade = window.document.getElementById('inputGCity').value;
+        let localidade = window.document.getElementById('inputGCity');
 
         if (isEmpty(localidade)) {
 
             countie = window.document.querySelector(".bt-city").value;
 
         } else {
-            countie = localidade;
+            countie = localidade.value;
         }
 
 
@@ -629,7 +636,7 @@ export default Controller.extend({
                 case 'home':
                     this.set('stepAddressDestination', false);
 
-                    lThis = this;
+
 
                     let enderecoDestination = this.get('addressTemp');
                     let enderecoHome = this.get('endHomeUser');
@@ -658,7 +665,7 @@ export default Controller.extend({
                     let email = this.get('session.data.authenticated.user.email');
                     let password = this.get('session.data.authenticated.user.password');
 
-                    console.log(email, password);
+                    //  console.log(email, password);
 
 
                     let options = {
@@ -668,15 +675,14 @@ export default Controller.extend({
                         dataType: "json"
                     };
 
+                    let lThis = this;
                     this.get('ajax').request('/users/' + this.get('session.data.authenticated.user.id'), options)
                         .then(result => {
-
-                            return lThis.transitionToRoute('home');
+                            this.set('transitionHome', true);
                         })
                         .catch(err => {
                             console.error(err);
                         });
-
 
 
                     break;
@@ -684,7 +690,7 @@ export default Controller.extend({
                     break;
 
             }
-        },
+        },       
         setSelectEstado(selected, defaul = "") {
             this.set('estadoSelect', selected);
             let estado = this.get('estadoSelect');
