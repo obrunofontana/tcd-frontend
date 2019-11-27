@@ -14,6 +14,8 @@ export default Controller.extend({
 
             let { email, password } = this.getProperties('email', 'password');
 
+            
+
             try {
                 await this.session.authenticate('authenticator:token', { email, password });
             } catch (error) {
@@ -64,6 +66,8 @@ export default Controller.extend({
             //Defino o email e senha se arequisição do post for bem sucedida chamo authenticação novamente;
             this.set('email', user.email);
             this.set('password', user.password);
+            this.set('emailAux', user.email);
+            this.set('passwordAux', user.password);
 
             let lThis = this;
 

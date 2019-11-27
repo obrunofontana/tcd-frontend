@@ -14,6 +14,8 @@ export default Route.extend({
 
         if (!this.get('zip')) {
 
+       
+
      
             this.transitionTo('home');
 
@@ -24,6 +26,8 @@ export default Route.extend({
     }),
 
     model() {
+
+             
 
         if (this.session.isAuthenticated) {
 
@@ -84,5 +88,13 @@ export default Route.extend({
 
             return user
         }
+    },
+
+    beforeModel() {
+        //Mandar autenticar novamente
+        let controllerLogin = this.controllerFor('login');
+
+        //controllerLogin.send('authenticate');
+        //console.log(controllerLogin);
     }
 });
