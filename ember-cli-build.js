@@ -11,5 +11,6 @@ module.exports = function (defaults) {
   app.import('node_modules/framework7/js/framework7.bundle.min.js');
 
 
+
   return app.toTree();
 };

@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('home');
   this.route('welcome');
   this.route('profile');
+  this.route('resetPassword');
 });
 
 export default Router;

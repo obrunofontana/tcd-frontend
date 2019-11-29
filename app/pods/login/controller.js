@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 
+
 export default Controller.extend({
     session: service(),
     ajax: service(),
@@ -14,7 +15,7 @@ export default Controller.extend({
 
             let { email, password } = this.getProperties('email', 'password');
 
-            
+
 
             try {
                 await this.session.authenticate('authenticator:token', { email, password });
@@ -35,13 +36,13 @@ export default Controller.extend({
 
             if (this.session.isAuthenticated) {
                 //Se autenticar, faço verificação se o usuário já possui um veiculo
-                let currentUser = this.get('session.data.authenticated.user');              
+                let currentUser = this.get('session.data.authenticated.user');
 
-                let vehicle = currentUser.vehicles == {} ? false : true; 
+                let vehicle = currentUser.vehicles == {} ? false : true;
 
-                if (vehicle) {   
-                    this.transitionToRoute('home');                
-                } else {                    
+                if (vehicle) {
+                    this.transitionToRoute('home');
+                } else {
                     this.transitionToRoute('welcome');
                 }
             }
@@ -84,10 +85,28 @@ export default Controller.extend({
                 });
         },
 
-        forgotPassword() {
+        forgotPassword({ value }) {
 
-            alert('Opção em desenvolvimento');
+            let lThis = this;
 
-        }
+            this.set('emailForReset',value);
+
+            this.get('ajax').request('/forgot_password', {
+                method: 'POST',
+                data: {
+                    email: value
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            }).then(response => {
+               // console.log('reponse', response);
+                lThis.transitionToRoute('resetPassword');
+
+            }).catch(err => {
+                console.error(err);
+            });
+
+            this.set('sayThankYou', true); //Deixei fora para ter uma resposta mais rapida.
+        },
     }
 });

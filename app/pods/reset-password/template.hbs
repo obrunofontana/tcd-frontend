@@ -1,0 +1,42 @@
+<div class="container">
+
+    <div class="card" style="width: 18rem;" id="card-reset-password">
+        <div class="card-body">
+            <h5 class="card-title">Redefinição de Senha</h5>
+            <div class="card-body">
+                <form id="formResetPassword" {{action "resetPassword" on="submit"}}>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Informe o token disponivel no seu
+                            email</label>
+                        <div class="col-sm-10">
+                            {{input type="text" class="form-control" id="tokenReset" placeholder="Cole o token aqui" value=tokenReset}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Nova Senha</label>
+                        <div class="col-sm-10">
+                            {{input type="password" class="form-control" id="inputPasswordReset" placeholder="Senha" value=passwordReset}}
+                        </div>
+                        <p>{{errorMessage}}</p>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Confirmar Senha</label>
+                        <div class="col-sm-10">
+                            {{input type="password" class="form-control" id="inputConfirmPasswordReset" placeholder="Confirmar Senha" value=inputConfirmPasswordReset}}
+                        </div>
+                        <p>{{errorMessage}}</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary"> Confirmar
+                    </button>
+                </form>
+                {{sweet-alert
+                    show=passwordAlter
+                    title="Senha alterado com sucesso!"
+                    text="Você sera redicionado para o login."
+                    type="success"
+                    onConfirm=(action "rotaLogin")   
+                }}
+            </div>
+        </div>
+    </div>
+</div>

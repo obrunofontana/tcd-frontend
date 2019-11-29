@@ -39,9 +39,28 @@
                 </span>
             </button-->
             <input id="btn-confirm-cad" class="button button-block color-green entrar" type="submit" value="Entrar">
-            <a {{action "forgotPassword"}}class="remeberPass"> Esqueceu a senha? Se f#!31.</a>
+            <a {{action (mut enterEmail) true}} class="remeberPass"> Esqueceu a senha?</a>           
         </form>
-
+        {{! sayHello === false to start }}
+        {{sweet-alert
+            show=enterEmail          
+            title="Digite seu email para enviarmos a redefinção de senha"
+            input="email"
+            showCancelButton=true   
+            onConfirm=(action "forgotPassword")   
+            onCancel=(action (mut didNotJoin) true)                 
+        }}
+        {{sweet-alert
+            show=sayThankYou
+            title="Email enviado!"
+            text="Verifique sua caixa de entrada."
+            type="success"
+        }}
+        {{sweet-alert
+            show=didNotJoin
+            title=":-("
+            text="Ok, acho que lembrou da senha não é mesmo!?"
+        }}        
         <hr>
 
         <div id="btn-sociais" class="block">

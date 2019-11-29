@@ -1,0 +1,6 @@
+{
+  "name": "frontend-rodizcar",
+  "dependencies": {
+    "sweetalert": "~1.1.0"
+  }
+}
