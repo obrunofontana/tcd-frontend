@@ -1,7 +1,6 @@
-# frontend-rodizcar
+# Rodizcar
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Aplicação com Ember + Framework7(Cordova) referente ao TCD - Trabalho de Conclusão de Disciplina em Desenvolvimento de Software IV - Faculdade Materdei 2019
 
 ## Prerequisites
 
@@ -15,7 +14,7 @@ You will need the following things properly installed on your computer.
 ## Installation
 
 * `git clone <repository-url>` this repository
-* `cd frontend-rodizcar`
+* `cd rodizil`
 * `npm install`
 
 ## Running / Development
@@ -24,29 +23,6 @@ You will need the following things properly installed on your computer.
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 * Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
 
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Linting
-
-* `npm run lint:hbs`
-* `npm run lint:js`
-* `npm run lint:js -- --fix`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
 
 ## Further Reading / Useful Links
 
@@ -55,3 +31,20 @@ Specify what it takes to deploy your app.
 * Development Browser Extensions
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+  
+## API Via CEP:
+https://viacep.com.br
+
+### Recursos Usados
+
+Lista de recursos usados
+
+| Recurso | Link |
+| ------ | ------ |
+| API Local Consulta Veiculos|https://github.com/obrunofontana/rodizcar-backend |
+| Firebase Authentication | https://firebase.google.com/docs/auth/?authuser=0 |
+| Cloud Firestore | https://firebase.google.com/docs/firestore/?authuser=0 |
+| Cloud Functions | https://firebase.google.com/docs/functions/?hl=pt-br |
+| Cloud Storage | https://firebase.google.com/docs/storage/?authuser=0 |
+| Framework7 | https://framework7.io/docs/ |
+| Icones Font Awesome | https://fontawesome.com/icons/ |
